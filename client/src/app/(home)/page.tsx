@@ -114,9 +114,9 @@ export default function Home() {
             <div className="space-y-5">
               {/* Lifetime highlight from API */}
               {bestTariff && (
-                <div className="relative rounded-[28px] border-[2.5px] border-amber-400 bg-[#3A3F41] px-6 py-5 sm:px-10 sm:py-8 md:px-12 md:py-9 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+                <div className="relative rounded-[28px] border-[2.5px] border-amber-400 bg-[#3A3F41] px-6 py-5 sm:px-10 sm:py-8 md:px-12 md:py-9 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] max-w-[344px] sm:max-w-none mx-auto">
                   {saleActive && (
-                    <span className="absolute -top-3 left-10 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md shadow">
+                    <span className="absolute -top-3 left-4 sm:left-10 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md shadow">
                       -{discount(bestTariff.price, bestTariff.full_price)}%
                     </span>
                   )}
@@ -170,7 +170,7 @@ export default function Home() {
               )}
 
               {/* Plans from API */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 md:gap-7 justify-items-stretch sm:justify-items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-1 md:gap-10 justify-items-center sm:justify-items-center">
                 {otherTariffs.map((t) => {
                   const isSelected = selectedId === t.id;
                   const pct = discount(t.price, t.full_price);
@@ -179,39 +179,37 @@ export default function Home() {
                     <button
                       key={t.id}
                       onClick={() => setSelectedId(t.id)}
-                      className={`group relative w-full max-w-[344px] min-h-[160px] sm:w/[240px] sm:h-[250px] rounded-[24px] sm:rounded-[40px]
-                      text-left grid grid-cols-[auto_1fr] items-start gap-x-4 gap-y-1 px-5 py-4 sm:flex sm:flex-col sm:pt-[70px] sm:pr-[21px] sm:pb-[26px] sm:pl-[21px]
-                      bg-[#3A3F41]/95 border-2 border-[#5A5E61]
-                      shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]
-                      transition-[transform,box-shadow,border-color] duration-200 ease-out
-                      hover:-translate-y-[1px] mx-auto
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6EA1]/40
-                      ${
-                        isSelected
-                          ? "border-[#FF6EA1] shadow-[0_8px_24px_rgba(255,110,161,0.22),inset_0_1px_0_rgba(255,255,255,0.05)]"
-                          : "hover:border-[#6A6E71] hover:shadow-[0_8px_18px_rgba(0,0,0,0.25)]"
-                      }`}
+                      className={`group relative w-full max-w-[344px] h-[108px] sm:w-[170px] sm:h-[250px] rounded-[24px] sm:rounded-[40px]
+                      text-left grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-1 px-4 py-4
+                      sm:flex sm:flex-col sm:items-start sm:gap-0 sm:pt-[70px] sm:pr-[21px] sm:pb-[26px] sm:pl-[21px]
+                       bg-[#3A3F41]/95 border-2 border-[#5A5E61]
+                       transition-[transform,box-shadow,border-color] duration-200 ease-out
+                       ${
+                         isSelected
+                           ? "border-[#FF6EA1] shadow-[0_8px_24px_rgba(255,110,161,0.22),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                           : "hover:border-[#6A6E71] hover:shadow-[0_8px_18px_rgba(0,0,0,0.25)]"
+                       }`}
                     >
                       {showBadge && (
                         <span className="absolute -top-3 left-5 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow">
                           -{pct}%
                         </span>
                       )}
-                      <div className="col-span-2 flex items-center mb-2 sm:mb-5 gap-2 text-base sm:text-xl">
+                      <div className="col-span-2 flex items-center mb-1 gap-2 text-base sm:text-xl">
                         <span className="opacity-90">{t.period}</span>
                       </div>
                       {/* Price block */}
                       <div className="row-start-2 col-start-1">
-                        <div className="text-[28px] sm:text-[34px] leading-none font-extrabold tracking-tight">
+                        <div className="text-[26px] sm:text-[34px] leading-none font-extrabold tracking-tight">
                           {fmt(saleActive ? t.price : t.full_price)}
                         </div>
                         {saleActive && (
-                          <div className="mt-1 sm:ml-8 text-xs sm:text-[13px] text-white/60 line-through">
+                          <div className="mt-0.5 text-[11px] sm:text-[13px] text-white/60 line-through">
                             {fmt(t.full_price)}
                           </div>
                         )}
                       </div>
-                      <p className="row-start-2 col-start-1 self-start mt-0 sm:mt-2 text-xs sm:text-xs text-white/85">
+                      <p className="row-start-2 col-start-2 self-center mt-0 sm:mt-7 text-[11px] sm:text-xs text-white/85">
                         {t.text}
                       </p>
                     </button>
@@ -220,20 +218,18 @@ export default function Home() {
               </div>
 
               {/* Info pill below cards */}
-              <div className="flex items-start gap-3">
-                <div className="mt-1 flex items-center gap-3 rounded-[22px] bg-[#3A3F41] border border-[#5A5E61] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-                  <Image
-                    src="/assets/alert.png"
-                    alt="Внимание"
-                    width={18}
-                    height={18}
-                    className="w-[18px] h-[18px]"
-                  />
-                  <span className="text-sm text-white/90">
-                    Следуя плану на 3 месяца и более, люди получают в 2 раза
-                    лучший результат, чем за 1 месяц
-                  </span>
-                </div>
+              <div className="mt-1 w-full max-w-[344px] sm:max-w-none mx-auto sm:mx-0 flex items-center gap-3 rounded-[22px] bg-[#3A3F41] border border-[#5A5E61] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                <Image
+                  src="/assets/alert.png"
+                  alt="Внимание"
+                  width={18}
+                  height={18}
+                  className="w-[18px] h-[18px]"
+                />
+                <span className="text-sm text-white/90">
+                  Следуя плану на 3 месяца и более, люди получают в 2 раза
+                  лучший результат, чем за 1 месяц
+                </span>
               </div>
 
               {/* Agreement */}
