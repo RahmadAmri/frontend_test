@@ -179,7 +179,7 @@ export default function Home() {
                     <button
                       key={t.id}
                       onClick={() => setSelectedId(t.id)}
-                      className={`group relative w-full max-w-[344px] min-h-[160px] sm:w/[240px] sm:h-[335px] rounded-[24px] sm:rounded-[40px]
+                      className={`group relative w-full max-w-[344px] min-h-[160px] sm:w/[240px] sm:h-[250px] rounded-[24px] sm:rounded-[40px]
                       text-left grid grid-cols-[auto_1fr] items-start gap-x-4 gap-y-1 px-5 py-4 sm:flex sm:flex-col sm:pt-[70px] sm:pr-[21px] sm:pb-[26px] sm:pl-[21px]
                       bg-[#3A3F41]/95 border-2 border-[#5A5E61]
                       shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]
@@ -211,7 +211,7 @@ export default function Home() {
                           </div>
                         )}
                       </div>
-                      <p className="row-start-2 col-start-2 self-start mt-0 sm:mt-2 text-xs sm:text-sm text-white/85">
+                      <p className="row-start-2 col-start-1 self-start mt-0 sm:mt-2 text-xs sm:text-xs text-white/85">
                         {t.text}
                       </p>
                     </button>
