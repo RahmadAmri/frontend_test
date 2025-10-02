@@ -25,7 +25,7 @@ function formatTime(totalSeconds: number) {
 }
 
 const nf = new Intl.NumberFormat("ru-RU");
-const fmt = (n: number) => nf.format(n) + " Р";
+const fmt = (n: number) => nf.format(n) + " ₽";
 const discount = (price: number, full: number) =>
   Math.max(0, Math.round(100 - (price / full) * 100));
 
@@ -87,7 +87,8 @@ export default function Home() {
       <section className="max-w-6xl mx-auto rounded-3xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-900">
         <div className="px-6 sm:px-10 pb-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mt-6">
-            Выбери подходящий для себя тариф
+            Выбери подходящий для себя{" "}
+            <span className="text-amber-400">тариф</span>
           </h1>
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
@@ -109,14 +110,13 @@ export default function Home() {
             <div className="space-y-5">
               {/* Lifetime highlight from API */}
               {bestTariff && (
-                <div className="relative rounded-[28px] border-[3px] border-amber-400 bg-neutral-800/90 px-6 py-6 md:px-8 md:py-7">
-                  <span className="absolute -top-3 left-14 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-md shadow">
+                <div className="relative rounded-[28px] border-[2.5px] border-amber-400 bg-[#3A3F41] px-8 py-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+                  <span className="absolute -top-3 left-14 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md shadow">
                     -{discount(bestTariff.price, bestTariff.full_price)}%
                   </span>
                   <span className="absolute top-3 right-4 text-amber-300 font-semibold">
                     хит!
                   </span>
-
                   <div className="md:flex md:items-center md:gap-10">
                     {/* Left: title + price */}
                     <div className="md:w-1/2">
@@ -171,7 +171,7 @@ export default function Home() {
               )}
 
               {/* Plans from API */}
-              <div className="grid sm:grid-cols-3 gap-4 justify-items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6 justify-items-center">
                 {otherTariffs.map((t) => {
                   const isSelected = selectedId === t.id;
                   const pct = discount(t.price, t.full_price);
@@ -180,35 +180,42 @@ export default function Home() {
                     <button
                       key={t.id}
                       onClick={() => setSelectedId(t.id)}
-                      className={`relative rounded-[22px] p-5 w-[240px] h-[335px] flex flex-col justify-between text-left transition border bg-neutral-800
-                        ${
-                          isSelected
-                            ? "border-pink-400 shadow-[0_0_0_3px_rgba(244,114,182,0.35)]"
-                            : "border-neutral-800 hover:border-neutral-700"
-                        }`}
+                      className={`group relative w-40 h-60 rounded-[40px] text-left flex flex-col gap-16px
+                      pt-[70px] pr-[21px] pb-[26px] pl-[21px]
+                      bg-[#3A3F41]/95 border-2 border-[#5A5E61]
+                      shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]
+                      transition-[border,box-shadow,transform] duration-200 ease-out
+                      hover:-translate-y-[1px]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6EA1]/40
+                      ${
+                        isSelected
+                          ? "border-[#FF6EA1] shadow-[0_8px_24px_rgba(255,110,161,0.22),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                          : "hover:border-[#6A6E71] hover:shadow-[0_8px_18px_rgba(0,0,0,0.25)]"
+                      }`}
                     >
-                      <div className="flex items-center gap-2 text-xs">
-                        {showBadge && (
-                          <span className="bg-rose-500 text-white px-2 py-0.5 rounded font-bold">
-                            -{pct}%
-                          </span>
-                        )}
-                        <span className="opacity-80">{t.period}</span>
+                      {showBadge && (
+                        <span className="absolute -top-3 left-5 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow">
+                          -{pct}%
+                        </span>
+                      )}
+
+                      <div className="flex items-center mb-5 gap-2 text-xl">
+                        <span className="opacity-90">{t.period}</span>
                       </div>
 
                       {/* Price block */}
-                      <div className="mt-1">
-                        <div className="text-2xl font-extrabold">
+                      <div>
+                        <div className="text-[32px] sm:text-[34px] leading-none font-extrabold tracking-tight">
                           {fmt(saleActive ? t.price : t.full_price)}
                         </div>
                         {saleActive && (
-                          <div className="text-xs text-neutral-400 line-through">
+                          <div className="mt-1 ml-8 text-[13px] text-white/60 line-through">
                             {fmt(t.full_price)}
                           </div>
                         )}
                       </div>
 
-                      <p className="mt-3 text-sm text-neutral-300">{t.text}</p>
+                      <p className="mt-2 text-xs text-white/85">{t.text}</p>
                     </button>
                   );
                 })}
@@ -216,26 +223,17 @@ export default function Home() {
 
               {/* Info pill below cards */}
               <div className="flex items-start gap-3">
-                <div className="shrink-0 mt-1 h-6 w-6 rounded-full bg-neutral-700/70 flex items-center justify-center">
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    className="text-amber-300"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 14h-2v-6h2v6Zm0-8h-2V6h2v2Z"
-                    />
-                  </svg>
-                </div>
-                <div className="flex-1 bg-neutral-800 text-neutral-200 rounded-2xl px-4 py-3 flex items-center justify-between">
-                  <span className="text-sm">
+                <div className="mt-1 flex items-center gap-3 rounded-[22px] bg-[#3A3F41] border border-[#5A5E61] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                  <Image
+                    src="/assets/alert.png"
+                    alt="Внимание"
+                    width={18}
+                    height={18}
+                    className="w-[18px] h-[18px]"
+                  />
+                  <span className="text-sm text-white/90">
                     Следуя плану на 3 месяца и более, люди получают в 2 раза
                     лучший результат, чем за 1 месяц
-                  </span>
-                  <span className="ml-3 shrink-0 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-md">
-                    Skytrack
                   </span>
                 </div>
               </div>
@@ -281,9 +279,12 @@ export default function Home() {
 
               {/* Fine print */}
               <p className="text-[11px] leading-relaxed text-neutral-400">
-                Следуя плану на 3 месяца и более, люди получают в 2 раза лучшие
-                результаты, чем за 1 месяц. Мы не списываем деньги
-                автоматически. Можно отменить покупку в любой момент.
+                Нажимая кнопку «Купить», Пользователь соглашается на разовое
+                списание денежных средств для получения пожизненного доступа к
+                приложению. Пользователь соглашается, что данные
+                кредитной/дебетовой карты будут сохранены для осуществления
+                покупок дополнительных услуг сервиса в случае желания
+                пользователя.
               </p>
             </div>
           </div>
